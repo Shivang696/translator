@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Language Translator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Noto+Sans&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Roboto", "Noto Sans", sans-serif;
+            background-color: #eef1f5;
+        }
+
+        .wrapper {
+            max-width: 650px;
+            margin: 60px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #555;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 15px;
+            background-color: #2d6cdf;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #1f52a3;
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f7f9fc;
+            border: 1px solid #dce3ed;
+            border-radius: 4px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #222;
+            white-space: pre-wrap;
+        }
+
+        .footer-note {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <h1>Language Translator</h1>
+
+    <form method="post" action="/translate">
+
+        <div class="field">
+            <label>From</label>
+            <select name="source_lang">
+                {% for code, name in languages %}
+                <option value="{{ code }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="field">
+            <label>To</label>
+            <select name="target_lang">
+                {% for code, name in languages %}
+                <option value="{{ code }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Text</label>
+            <textarea name="text" placeholder="Type your sentence here...">
+{{ text if text else "" }}
+            </textarea>
+        </div>
+
+        <button type="submit">Translate</button>
+    </form>
+
+    {% if result %}
+    <div class="output">
+        {{ result }}
+    </div>
+    {% endif %}
+
+    <div class="footer-note">
+        Translation accuracy depends on model training quality.
+    </div>
+</div>
+
+</body>
+</html>
